@@ -58,6 +58,15 @@ This project provides a robust interface for network engineers to provision, mon
    ```
    *The Dashboard will be available at `http://localhost:3000`*
 
+## 🧪 Testing
+
+To help you test the system and prepare for your viva, I've created a [sample_test_data.txt](file:///d:/SANJAY%20WORKS/sem5/Networking%20Management%20Techniques/Capstone%20Project/Project/sample_test_data.txt) file.
+
+It contains:
+- **5 Realistic Test Cases** (Global networking scenarios).
+- **Step-by-step CRUD verification** (Create, Read, Update, Delete).
+- **Expected Results** to watch for in the UI.
+
 ## 📖 Viva / Examination Guide
 
 This project is designed to be easily explained during a technical review:

@@ -1,0 +1,63 @@
+# TAPI Command Center - Sample Test Data
+
+Use the following data sets to test the CRUD (Create, Read, Update, Delete) functionality of your Transport Management System.
+
+---
+
+## 📥 Test Case 1: High Capacity Trans-Atlantic Link
+- **Source**: LON-NODE-01
+- **Destination**: NYC-DATA-04
+- **Status**: ACTIVE
+- **Bandwidth**: 10000
+- **Expected Result**: Should appear in the table with a Green "ACTIVE" badge and "10000 Mbps" capacity.
+
+## 📥 Test Case 2: Regional Hub Connectivity (Maintenance)
+- **Source**: TKY-EDGE-09
+- **Destination**: SGP-HUB-02
+- **Status**: MAINTENANCE
+- **Bandwidth**: 5000
+- **Expected Result**: Should appear with a Yellow "MAINTENANCE" badge, indicating a scheduled bypass or repair.
+
+## 📥 Test Case 3: Backup Link (Offline)
+- **Source**: BER-RTR-05
+- **Destination**: PAR-RTR-12
+- **Status**: INACTIVE
+- **Bandwidth**: 1000
+- **Expected Result**: Should appear with a Red "INACTIVE" badge. Great for testing the "Edit" function to bring it back to ACTIVE.
+
+## 📥 Test Case 4: Emerging Market Gateway
+- **Source**: SYD-GW-03
+- **Destination**: MUM-GW-07
+- **Status**: ACTIVE
+- **Bandwidth**: 2500
+- **Expected Result**: Successful entry with standard Active status.
+
+## 📥 Test Case 5: Local Loopback Test
+- **Source**: TEST-SRC-LOCAL
+- **Destination**: TEST-DST-LOCAL
+- **Status**: ACTIVE
+- **Bandwidth**: 100
+- **Expected Result**: Quick verification of low-bandwidth entries. Useful for testing the "Delete" action after creation.
+
+---
+
+## 🛠 How to Test
+
+1. **CREATE**: 
+   - Fill in the "Source", "Destination", "Status", and "Bandwidth" using the values above.
+   - Click "Commit Provisioning".
+   - **Verification**: The new entry should immediately appear at the top of the "RESOURCE MONITOR" table.
+
+2. **READ**:
+   - Observe the table. Ensure the ID is generated (e.g., `8f2a1b...`) and the date/time matches your current local time.
+
+3. **UPDATE**:
+   - Click the "Edit" (pencil icon) on Test Case 3 (Berlin to Paris).
+   - Change the Status from "INACTIVE" to "ACTIVE".
+   - Click "Apply Configuration".
+   - **Verification**: The badge should turn from Red to Green.
+
+4. **DELETE**:
+   - Click the "Delete" (trash icon) on Test Case 5 (Local Loopback).
+   - Confirm the browser alert.
+   - **Verification**: The entry should be removed from the table and the "Active Resources" count in the top-right should decrease.
