@@ -1,0 +1,47 @@
+# Transport API - Run & Test Instructions
+
+## Prerequisites
+- Java 17+ installed (JAVA_HOME set)
+- Maven 3.8+ installed (added to PATH)
+- (Optional) curl or Postman for testing
+
+## Run the Project
+1. Open terminal in the `transport-api` folder (where pom.xml is located)
+2. Execute:
+   mvn spring-boot:run
+3. Wait for startup logs, app runs on port 8080 by default.
+
+## Test Endpoints (curl examples)
+Base URL: http://localhost:8080/transport
+
+### 1. Create Transport (POST)
+curl -X POST http://localhost:8080/transport ^
+  -H "Content-Type: application/json" ^
+  -d "{\"source\": \"Mumbai\", \"destination\": \"Delhi\", \"status\": \"ACTIVE\", \"bandwidth\": 500}"
+
+### 2. Get All Transports (GET)
+curl http://localhost:8080/transport
+
+### 3. Get Transport by ID (GET)
+curl http://localhost:8080/transport/{paste-id-from-create-response}
+
+### 4. Update Transport (PUT)
+curl -X PUT http://localhost:8080/transport/{paste-id} ^
+  -H "Content-Type: application/json" ^
+  -d "{\"source\": \"Mumbai\", \"destination\": \"Chennai\", \"status\": \"INACTIVE\", \"bandwidth\": 200}"
+
+### 5. Delete Transport (DELETE)
+curl -X DELETE http://localhost:8080/transport/{paste-id}
+
+## Verify 404 Handling
+curl http://localhost:8080/transport/non-existent-id
+Expected: 404 Not Found with error message.
+
+## Using Postman
+1. Import the following requests:
+   - POST http://localhost:8080/transport (Body: raw JSON)
+   - GET http://localhost:8080/transport
+   - GET http://localhost:8080/transport/{id}
+   - PUT http://localhost:8080/transport/{id} (Body: raw JSON)
+   - DELETE http://localhost:8080/transport/{id}
+2. Set Headers: Content-Type = application/json for POST and PUT requests

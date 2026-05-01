@@ -1,0 +1,60 @@
+# Complete Transport Management System - Run Instructions
+
+## Project Structure
+```
+Project/
+├── transport-api/              (Spring Boot Backend)
+│   ├── pom.xml
+│   ├── RUN_TEST_INSTRUCTIONS.txt
+│   └── src/
+├── transport-frontend/         (React Frontend)
+│   ├── package.json
+│   ├── public/
+│   └── src/
+└── RUN_BOTH_INSTRUCTIONS.txt  (This file)
+```
+
+## Prerequisites
+1. Java 17+ installed and JAVA_HOME set
+2. Maven 3.8+ installed and added to PATH
+3. Node.js 18+ installed
+
+## Step 1: Start the Backend (Terminal 1)
+```bash
+cd "D:\SANJAY WORKS\sem5\Networking Management Techniques\Capstone Project\Project\transport-api"
+mvn spring-boot:run
+```
+Backend will start on http://localhost:8080
+
+## Step 2: Start the Frontend (Terminal 2)
+```bash
+cd "D:\SANJAY WORKS\sem5\Networking Management Techniques\Capstone Project\Project\transport-frontend"
+npm install
+npm start
+```
+Frontend will start on http://localhost:3000
+
+## Step 3: Access the Application
+Open browser and navigate to: http://localhost:3000
+
+## Features
+- Modern gradient UI with responsive design
+- Create new transport (POST) - Service Creation (ONF TAPI)
+- View all transports in a table (GET) - Topology Query (ONF TAPI)
+- Edit existing transports (PUT) - Service Update (ONF TAPI)
+- Delete transports (DELETE) - Service Termination (ONF TAPI)
+- Real-time status badges (ACTIVE/INACTIVE/MAINTENANCE)
+- Success/Error notifications
+
+## API Endpoints (Backend)
+- POST   http://localhost:8080/transport          (Create)
+- GET    http://localhost:8080/transport          (Get All)
+- GET    http://localhost:8080/transport/{id}     (Get By ID)
+- PUT    http://localhost:8080/transport/{id}     (Update)
+- DELETE http://localhost:8080/transport/{id}     (Delete)
+
+## Troubleshooting
+- If port 8080 is in use, update transport-api/src/main/resources/application.properties
+- If port 3000 is in use, React will prompt to use another port
+- Ensure CORS is enabled (already configured in CorsConfig.java)
+- If npm install fails, try: npm install --force
