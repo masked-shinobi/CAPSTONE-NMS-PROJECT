@@ -50,3 +50,13 @@ NETCONF_Transaction_Guide.docx
 NETCONF_Transaction_Guide.pdf
 TAPI_REST_API_PRD.docx
 run.txt
+
+# Maven distribution and wrappers
+apache-maven-*/
+apache-maven-*.tar.gz
+apache-maven-*.zip
+.mvn/
+mvnw
+mvnw.cmd
+*.flattened-pom.xml
+dependency-reduced-pom.xml
