@@ -24,6 +24,21 @@ function App() {
   const [editingId, setEditingId] = useState(null);
   const [message, setMessage] = useState({ text: '', type: '' });
   const [isLoading, setIsLoading] = useState(false);
+  const [devNetData, setDevNetData] = useState(null);
+  const [isDevNetLoading, setIsDevNetLoading] = useState(false);
+
+  const fetchDevNetStatus = async () => {
+    setIsDevNetLoading(true);
+    try {
+      const response = await fetch('/devnet/status');
+      const data = await response.json();
+      setDevNetData(data);
+    } catch (error) {
+      setDevNetData({ error: 'Failed to reach Cisco DevNet' });
+    } finally {
+      setIsDevNetLoading(false);
+    }
+  };
 
   const fetchTransports = React.useCallback(async () => {
     setIsLoading(true);
@@ -241,14 +256,61 @@ function App() {
             </div>
           </form>
 
-          {/* Toast Message (Absolute positioned relative to parent) */}
-          {message.text && (
-            <div className={`mt-auto p-4 rounded-tech text-xs font-bold border animate-in fade-in slide-in-from-bottom-4 duration-300 ${
-              message.type === 'success' ? 'bg-emerald-50 text-emerald-700 border-emerald-200' : 'bg-rose-50 text-rose-700 border-rose-200'
-            }`}>
-              {message.text}
+          {/* Cisco DevNet Connectivity Card */}
+          <div className="mt-8 pt-6 border-t border-slate-100">
+            <div className="flex items-center justify-between mb-3">
+              <h3 className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Cisco Sandbox</h3>
+              <button 
+                onClick={fetchDevNetStatus}
+                className="p-1 hover:bg-slate-100 rounded transition-colors text-indigo-600"
+                disabled={isDevNetLoading}
+              >
+                <RefreshCw className={`w-3 h-3 ${isDevNetLoading ? 'animate-spin' : ''}`} />
+              </button>
             </div>
-          )}
+            
+            <div className={`p-3 rounded-tech border ${devNetData?.error ? 'bg-rose-50 border-rose-100' : 'bg-slate-50 border-slate-100'}`}>
+              <div className="flex items-center gap-2 mb-2">
+                <Server className={`w-4 h-4 ${devNetData?.error ? 'text-rose-500' : 'text-indigo-600'}`} />
+                <span className="text-[11px] font-bold text-slate-700">RESTCONF Interface</span>
+              </div>
+              
+              {!devNetData && !isDevNetLoading && (
+                <p className="text-[10px] text-slate-500 italic">No connection initiated. Click refresh to query Cisco Sandbox.</p>
+              )}
+              
+              {isDevNetLoading && (
+                <p className="text-[10px] text-indigo-600 animate-pulse font-medium">Querying Sandbox API...</p>
+              )}
+
+              {devNetData && !isDevNetLoading && (
+                <div className="space-y-1">
+                  {devNetData.error ? (
+                    <div className="flex items-start gap-1">
+                      <AlertCircle className="w-3 h-3 text-rose-500 mt-0.5 shrink-0" />
+                      <p className="text-[10px] text-rose-600 leading-tight">{devNetData.error}</p>
+                    </div>
+                  ) : (
+                    <>
+                      <div className="flex items-center justify-between">
+                        <span className="text-[10px] text-slate-500">Host:</span>
+                        <span className="text-[10px] font-mono text-slate-700">ios-xe-mgmt</span>
+                      </div>
+                      <div className="flex items-center justify-between">
+                        <span className="text-[10px] text-slate-500">Status:</span>
+                        <span className="text-[10px] font-bold text-emerald-500">CONNECTED</span>
+                      </div>
+                      <div className="mt-2 pt-2 border-t border-slate-200">
+                        <p className="text-[9px] text-slate-400 line-clamp-2 font-mono">
+                          {JSON.stringify(devNetData).substring(0, 100)}...
+                        </p>
+                      </div>
+                    </>
+                  )}
+                </div>
+              )}
+            </div>
+          </div>
         </aside>
 
         {/* Right Content: Resource Monitor */}

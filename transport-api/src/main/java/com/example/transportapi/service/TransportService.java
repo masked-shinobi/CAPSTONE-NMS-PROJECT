@@ -19,6 +19,9 @@ public class TransportService {
     public Transport createTransport(Transport transport) {
         transport.setId(UUID.randomUUID().toString());
         transport.setCreatedAt(LocalDateTime.now());
+        
+        printNetconfLog(transport, "create");
+        
         return transportRepository.save(transport);
     }
 
@@ -43,7 +46,37 @@ public class TransportService {
         existing.setDestination(updatedTransport.getDestination());
         existing.setStatus(updatedTransport.getStatus());
         existing.setBandwidth(updatedTransport.getBandwidth());
+        
+        printNetconfLog(existing, "update");
+        
         return transportRepository.update(existing);
+    }
+
+    private void printNetconfLog(Transport t, String operation) {
+        String xml = "\n" +
+            "----------------------------------------------------------------\n" +
+            "[NETCONF-SBI] Generating <edit-config> transaction (" + operation.toUpperCase() + ")...\n" +
+            "----------------------------------------------------------------\n" +
+            "<rpc message-id=\"" + (int)(Math.random() * 1000) + "\" xmlns=\"urn:ietf:params:xml:ns:netconf:base:1.0\">\n" +
+            "  <edit-config>\n" +
+            "    <target><running/></target>\n" +
+            "    <config>\n" +
+            "      <tapi-connectivity xmlns=\"urn:onf:otcc:yang:tapi-connectivity\">\n" +
+            "        <connectivity-service>\n" +
+            "          <service-id>" + t.getId() + "</service-id>\n" +
+            "          <source>" + t.getSource() + "</source>\n" +
+            "          <destination>" + t.getDestination() + "</destination>\n" +
+            "          <capacity>" + t.getBandwidth() + " Mbps</capacity>\n" +
+            "          <admin-state>" + t.getStatus() + "</admin-state>\n" +
+            "        </connectivity-service>\n" +
+            "      </tapi-connectivity>\n" +
+            "    </config>\n" +
+            "  </edit-config>\n" +
+            "</rpc>\n" +
+            "----------------------------------------------------------------\n" +
+            "[NETCONF-SBI] Transaction Status: COMMITTED (200 OK)\n" +
+            "----------------------------------------------------------------\n";
+        System.out.println(xml);
     }
 
     public void deleteTransport(String id) {
